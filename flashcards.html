@@ -1,0 +1,152 @@
+<!DOCTYPE html>       <!-- Tells the browser: "This is modern HTML" -->
+<html lang="en">      <!-- The root element. lang="en" says it's in English -->
+<head>
+    <!-- Metadata that doesn't appear on the page itself -->
+    <meta charset="UTF-8">                 <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>              <!-- Shows in the browser tab -->
+    <style>
+        /* --- Page layout --- */
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: #f6f5f8;   /* Off-white background */
+            color: #171716;              /* Near-black text */
+            max-width: 600px;            /* Keep everything narrow */
+            margin: 40px auto;           /* Center the page */
+            padding: 0 20px;             /* Breathing room on small screens */
+            text-align: center;          /* Center text and inline content */
+        }
+
+        /* --- The card --- */
+        #card {
+            background-color: white;
+            min-height: 200px;           /* Tall enough to look like a card */
+            padding: 30px;
+            margin: 30px 0 16px;
+            border-radius: 12px;         /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Soft shadow */
+            display: flex;               /* Flex lets us center the text... */
+            flex-direction: column;      /* Stack question above answer */
+            align-items: center;         /* ...horizontally (in a column) */
+            justify-content: center;     /* ...and vertically */
+        }
+
+        #question-text {
+            font-size: 1.4rem;
+        }
+
+        #answer-text {
+            font-size: 1.2rem;
+            color: #1a1a2e;              /* Navy, to set it apart */
+            margin-top: 16px;
+            font-weight: bold;
+        }
+
+        /* Hides any element with this class */
+        .hidden {
+            display: none;
+        }
+
+        /* --- Counter --- */
+        #counter {
+            color: #666;                 /* Gray, less important */
+            margin-bottom: 16px;
+        }
+
+        /* --- Buttons --- */
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;                   /* Space between buttons */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #1a1a2e;   /* Dark navy, like your portfolio */
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00d4ff;   /* Cyan on hover */
+            color: #1a1a2e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Everything visible on the page goes here -->
+    <h1>Flashcards</h1>
+
+    <!-- The card: question on top, answer below (hidden until clicked) -->
+    <div id="card">
+        <p id="question-text"></p>
+        <p id="answer-text" class="hidden"></p>
+    </div>
+
+    <!-- Progress indicator, like "Card 1 of 5" -->
+    <p id="counter"></p>
+
+    <!-- Controls -->
+    <div id="controls">
+        <button id="show-btn">Show Answer</button>
+        <button id="next-btn">Next</button>
+    </div>
+
+    <script>
+        // --- Flashcard data ---
+        // An array of objects: each object is one card with a question and answer
+        const cards = [
+            { question: "What does HTML stand for?", answer: "HyperText Markup Language" },
+            { question: "What does CSS stand for?", answer: "Cascading Style Sheets" },
+            { question: "What usually goes in a footer?", answer: "Copyright information, navigation links, contact details." },
+            { question: "Why should images always include an alt attribute?", answer: "To provide alternative text for users who cannot see the image, improving accessibility." },
+            { question: "What is the DOM?", answer: "A tree-structured representation of the HTML document that JavaScript can interact with." }
+        ];
+
+        // --- State ---
+        let currentIndex = 0;  // Which card we're on (0 = first card)
+
+        // --- Find the elements ---
+        const questionText = document.querySelector("#question-text");
+        const answerText = document.querySelector("#answer-text");
+        const counter = document.querySelector("#counter");
+        const showBtn = document.querySelector("#show-btn");
+        const nextBtn = document.querySelector("#next-btn");
+
+        // --- Display the current card ---
+        function showCard() {
+            const card = cards[currentIndex];          // Get the current card object
+
+            questionText.textContent = card.question;  // Show the question
+            answerText.textContent = card.answer;      // Load the answer...
+            answerText.classList.add("hidden");        // ...but keep it hidden
+
+            // Progress: currentIndex starts at 0, so add 1 for humans
+            counter.textContent = `Card ${currentIndex + 1} of ${cards.length}`;
+        }
+
+        // --- Show Answer button ---
+        showBtn.addEventListener("click", () => {
+            answerText.classList.remove("hidden");     // Reveal the answer
+        });
+
+        // --- Next button ---
+        nextBtn.addEventListener("click", () => {
+            currentIndex = currentIndex + 1;
+
+            // If we've gone past the last card, loop back to the first
+            if (currentIndex >= cards.length) {
+                currentIndex = 0;
+            }
+
+            showCard();  // Redraw with the new card (this also hides the answer)
+        });
+
+        // --- Show the first card when the page loads ---
+        showCard();
+    </script>
+</body>
+</html>

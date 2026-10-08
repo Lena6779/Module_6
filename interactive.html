@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Interactive Demo</title>
+    <style>
+        /* Inline styles for simplicity — just enough to see what’s happening */
+        body { font-family: sans-serif; padding: 40px; max-width: 700px; margin: auto; transition: background-color 0.3s, color 0.3s; }
+        .dark-mode { background-color: #1a1a2e; color: #e0e0e0; }
+        .warning { color: #e74c3c; font-weight: bold; }
+        .ok { color: #27ae60; }
+        button { padding: 8px 16px; cursor: pointer; margin: 4px; }
+        .task-item { padding: 8px; margin: 4px 0; background: #f0f0f0; border-radius: 4px; display: flex; justify-content: space-between; }
+        .dark-mode .task-item { background: #2a2a4a; }
+    </style>
+</head>
+<body>
+    <!-- Feature 1: Dark Mode Toggle -->
+    <!-- Feature 2: Character Counter -->
+    <!-- Feature 3: Dynamic Task List -->
+
+
+    <h1>JavaScript Interactive Demo</h1>
+
+<section>
+    <h2>1. Dark Mode Toggle</h2>
+    <button id="toggle-btn">Toggle Dark Mode</button>
+</section>
+<hr>
+<section>
+    <h2>2. Character Counter</h2>
+    <textarea id="text-input" rows="4" cols="50" placeholder="Type something..."></textarea>
+    <p>Characters: <span id="char-count" class="ok">0</span> / 200</p>
+</section>
+<hr>
+<section>
+    <h2>3. Dynamic Task List</h2>
+    <input type="text" id="task-input" placeholder="Enter a task...">
+    <button id="add-task-btn">Add Task</button>
+    <div id="task-list"></div>  <!-- New tasks get added in here -->
+</section>
+    <script>
+      // --- Feature 1: Dark Mode Toggle ---
+const toggleBtn = document.querySelector("#toggle-btn");  // Find the button
+
+toggleBtn.addEventListener("click", () => {
+    // classList.toggle adds the class if missing, removes it if present
+    document.body.classList.toggle("dark-mode");
+});
+
+// --- Feature 2: Character Counter ---
+const textInput = document.querySelector("#text-input");    // The textarea
+const charCount = document.querySelector("#char-count");    // The counter display
+const MAX_CHARS = 200;
+
+textInput.addEventListener("input", () => {
+    // 'input' event fires on EVERY keystroke (unlike 'change' which fires on blur)
+    const count = textInput.value.length;  // Current character count
+    charCount.textContent = count;          // Update the displayed number
+
+    // Change style based on how close to the limit
+    if (count > MAX_CHARS) {
+        charCount.className = "warning";     // Red — over limit
+    } else if (count > MAX_CHARS * 0.8) {
+        charCount.style.color = "#f39c12";   // Orange — getting close
+        charCount.className = "";            // Clear any class
+    } else {
+        charCount.className = "ok";          // Green — plenty of room
+    }
+});
+// --- Feature 3: Dynamic Task List ---
+const taskInput = document.querySelector("#task-input");     // The text box
+const addTaskBtn = document.querySelector("#add-task-btn");  // The Add button
+const taskList = document.querySelector("#task-list");       // The container for tasks
+
+function addTask() {
+    const taskText = taskInput.value.trim();  // Get input, remove extra spaces
+    if (taskText === "") return;               // Don't add empty tasks
+
+    // Create the task row
+    const taskItem = document.createElement("div");
+    taskItem.className = "task-item";
+
+    // Create the task text
+    const textSpan = document.createElement("span");
+    textSpan.textContent = taskText;
+
+    // Create a delete button that removes this task
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", () => {
+        taskItem.remove();
+    });
+
+    // Put the text and button inside the row, then add the row to the list
+    taskItem.appendChild(textSpan);
+    taskItem.appendChild(deleteBtn);
+    taskList.appendChild(taskItem);
+
+    // Clear the box and put the cursor back for the next task
+    taskInput.value = "";
+    taskInput.focus();
+}
+
+// Add a task by clicking the button...
+addTaskBtn.addEventListener("click", addTask);
+
+// ...or by pressing Enter in the text box
+taskInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") addTask();
+});
+    </script>
+</body>
+</html>
