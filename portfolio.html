@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Developer Profile</title>  <!-- This text shows in the browser tab -->
+    <link rel="stylesheet" href="portfolio-styles.css">
+
 </head>
 <body>
        <header>
@@ -27,9 +29,10 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects">
-        <h2>Projects</h2>
+<section id="projects">
+    <h2>Projects</h2>
 
+    <div class="project-grid">  <!-- Flex container: lays the cards out in a row -->
         <article>  <!-- Each project is a self-contained article -->
             <h3>Student Grade Tracker</h3>
             <p>A command-line Python application that reads student data from CSV files, calculates averages, and generates summary reports. Built with proper error handling and virtual environment management.</p>
@@ -44,7 +47,8 @@
             <h3>AI-Ready Task Manager API</h3>
             <p>A FastAPI backend with JWT authentication, full CRUD operations, SQLAlchemy database integration, and automated testing with pytest.</p>
         </article>
-    </section>
+    </div>
+</section>
 
     <!-- Skills Section -->
     <section id="skills">
@@ -61,7 +65,6 @@
  <footer id="contact">
         <h2>Contact</h2>
         <p>Email: <a href="mailto:lena@example.com">lena@example.com</a></p>
-        <p>GitHub: <a href="https://github.com/Lena6779" target="_blank">github.com/Lena6779</a></p>
         <p>&copy; 2026 Lena Hersloff</p>  <!-- &copy; displays the © symbol -->
     </footer>
 </body>
