@@ -107,3 +107,11 @@ footer a {
 footer a:hover {
     text-decoration: underline;  /* Underline on hover */
 }
+
+/* --- Responsive: Small Screens --- */
+@media (max-width: 600px) {
+    .project-grid {
+        flex-direction: column;   /* Stack cards vertically */
+    }
+}
+
